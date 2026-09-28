@@ -1,0 +1,2 @@
+"""Airline recommendation analytics package."""
+
