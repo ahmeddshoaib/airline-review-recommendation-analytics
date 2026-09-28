@@ -1,10 +1,10 @@
 # Airline Review Recommendation Analytics
 
-A leakage-safe Python project for understanding whether an airline review ends in a customer recommendation—and which service experiences most strongly separate advocates from detractors.
+This project analyses which parts of an airline experience are most closely associated with a customer recommendation. It compares structured service ratings with review text and tests whether the models generalise to airlines excluded from training.
 
-The original academic analysis covered **23,171 reviews across 497 airlines** and compared structured service ratings, TF-IDF text and combined models. This public rebuild fixes the most important technical weakness in that submission: airline-level imputation is now fitted **only on the training data**, with a training-derived global fallback for unseen airlines.
+The original academic analysis covered **23,171 reviews across 497 airlines** and compared structured service ratings, TF-IDF text and combined models. For this repository, I corrected the most important technical weakness in that submission: airline-level imputation is now fitted **only on the training data**, with a training-derived global fallback for unseen airlines.
 
-## What this repository demonstrates
+## Analysis covered
 
 - customer recommendation classification;
 - group-aware and random holdout evaluation;
@@ -12,13 +12,13 @@ The original academic analysis covered **23,171 reviews across 497 airlines** an
 - TF-IDF text modelling alongside service ratings;
 - comparable accuracy, precision, recall, F1 and ROC-AUC reporting;
 - feature and coefficient evidence translated into commercial action;
-- explicit separation between an academic result and a public synthetic pipeline check.
+- separate reporting for the original academic findings and the synthetic software check.
 
 ![Synthetic validation model comparison](figures/model_comparison.png)
 
-> **Evidence boundary:** the chart above is a synthetic pipeline validation, not a claim about real airline performance. The original university workbook is not redistributed and was not available for this rebuild. The code is ready to rerun when that source file is restored.
+> **Data note:** the chart above checks the pipeline on synthetic data; it is not a claim about real airline performance. The original university workbook is not redistributed and was not available when this repository was prepared. The code can be rerun when an authorised copy of the source file is restored.
 
-## Why the leakage repair matters
+## Leakage correction
 
 The submitted workflow calculated airline medians before splitting the dataset. That allowed test-set information to influence training-time imputation and compromised both the random and airline-holdout evaluations.
 
@@ -56,7 +56,7 @@ The included test deliberately creates an unseen airline and confirms that its m
 
 ## Business interpretation
 
-The original analysis consistently identified perceived value, ground service and cabin service as commercially important. The public rebuild turns that insight into a safer evaluation framework. A stakeholder can use the output to:
+The original analysis consistently identified perceived value, ground service and cabin service as commercially important. The corrected evaluation makes those findings easier to test. The output can be used to:
 
 - prioritise service attributes associated with recommendation;
 - compare the incremental value of free text against structured ratings;
@@ -96,5 +96,5 @@ The runner accepts `.csv` and `.xlsx`. To rebuild the real case, place the autho
 
 ## Author
 
-**Muhammad Ahmed Shoaib** — customer analytics, machine learning and commercial decision support.
-
+**Muhammad Ahmed Shoaib**<br>
+Customer analytics, machine learning and commercial decision support.
