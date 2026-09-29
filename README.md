@@ -4,6 +4,20 @@ This project analyses which parts of an airline experience are most closely asso
 
 The original academic analysis covered **23,171 reviews across 497 airlines** and compared structured service ratings, TF-IDF text and combined models. For this repository, I corrected the most important technical weakness in that submission: airline-level imputation is now fitted **only on the training data**, with a training-derived global fallback for unseen airlines.
 
+## Business question
+
+Airlines collect both structured service scores and open-text reviews, but the two sources do not automatically lead to a decision. This project asks three linked questions:
+
+1. Which service dimensions are most strongly associated with a recommendation?
+2. Does review text add useful signal beyond the structured ratings?
+3. Does the model still work for an airline it did not observe during training?
+
+The third question is especially important. A random review split can place the same airline in both training and test data, making performance look stronger than it would be for a new carrier. The airline-holdout track therefore tests transfer to genuinely unseen airline groups.
+
+## What I built and improved
+
+I prepared the review data, compared interpretable and non-linear classifiers, created a TF-IDF text track, evaluated a combined feature set and translated the model outputs into service priorities. In the public rebuild I moved every imputation step inside the training workflow, added an unseen-airline fallback, created repeatable synthetic validation data and wrote tests for leakage and output integrity.
+
 ## Analysis covered
 
 - customer recommendation classification;
@@ -62,6 +76,8 @@ The original analysis consistently identified perceived value, ground service an
 - compare the incremental value of free text against structured ratings;
 - audit errors rather than treating one accuracy number as proof;
 - distinguish diagnosis after a review from a pre-travel loyalty prediction.
+
+The intended use is service diagnosis: identify where experience scores and customer language point to recurring weaknesses, then test operational improvements against subsequent feedback. It is not a claim that the model can determine why an individual customer behaved as they did.
 
 ## Repository guide
 
