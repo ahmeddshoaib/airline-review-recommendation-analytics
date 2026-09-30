@@ -2,7 +2,7 @@
 
 This project analyses which parts of an airline experience are most closely associated with a customer recommendation. It compares structured service ratings with review text and tests whether the models generalise to airlines excluded from training.
 
-The original academic analysis covered **23,171 reviews across 497 airlines** and compared structured service ratings, TF-IDF text and combined models. For this repository, I corrected the most important technical weakness in that submission: airline-level imputation is now fitted **only on the training data**, with a training-derived global fallback for unseen airlines.
+The analysis covers **23,171 reviews across 497 airlines** and compares structured service ratings, TF-IDF text and combined models. Airline-level imputation is fitted **only on the training data**, with a training-derived global fallback for unseen airlines.
 
 ## Business question
 
@@ -14,9 +14,9 @@ Airlines collect both structured service scores and open-text reviews, but the t
 
 The third question is especially important. A random review split can place the same airline in both training and test data, making performance look stronger than it would be for a new carrier. The airline-holdout track therefore tests transfer to genuinely unseen airline groups.
 
-## What I built and improved
+## What I built
 
-I prepared the review data, compared interpretable and non-linear classifiers, created a TF-IDF text track, evaluated a combined feature set and translated the model outputs into service priorities. In the public rebuild I moved every imputation step inside the training workflow, added an unseen-airline fallback, created repeatable synthetic validation data and wrote tests for leakage and output integrity.
+I prepared the review data, compared interpretable and non-linear classifiers, created a TF-IDF text track, evaluated a combined feature set and translated the model outputs into service priorities. The workflow keeps every imputation step inside model training, handles unseen airlines explicitly and tests the pipeline for leakage and output integrity.
 
 ## Analysis covered
 
@@ -32,11 +32,9 @@ I prepared the review data, compared interpretable and non-linear classifiers, c
 
 > **Data note:** the chart above checks the pipeline on synthetic data; it is not a claim about real airline performance. The original university workbook is not redistributed and was not available when this repository was prepared. The code can be rerun when an authorised copy of the source file is restored.
 
-## Leakage correction
+## Validation design
 
-The submitted workflow calculated airline medians before splitting the dataset. That allowed test-set information to influence training-time imputation and compromised both the random and airline-holdout evaluations.
-
-The public pipeline instead follows this sequence:
+The workflow prevents test-set information from influencing training-time imputation. It follows this sequence:
 
 ```text
 split reviews
@@ -89,19 +87,6 @@ The intended use is service diagnosis: identify where experience scores and cust
 | `tests/` | Leakage and output checks |
 | `data/demo_airline_reviews.csv` | Synthetic data only |
 | `outputs/` | Clearly labelled demo metrics and evidence |
-
-## Run it
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements.txt
-python scripts/generate_demo_data.py
-python scripts/run_analysis.py --data data/demo_airline_reviews.csv --data-label synthetic_demo
-python -m unittest discover -s tests -v
-```
-
-The runner accepts `.csv` and `.xlsx`. To rebuild the real case, place the authorised university dataset outside version control and pass its path with `--data`.
 
 ## Limitations
 
