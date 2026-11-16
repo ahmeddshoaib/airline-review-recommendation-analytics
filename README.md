@@ -88,6 +88,20 @@ The intended use is service diagnosis: identify where experience scores and cust
 | `data/demo_airline_reviews.csv` | Synthetic data only |
 | `outputs/` | Clearly labelled demo metrics and evidence |
 
+## Run the synthetic validation
+
+Use Python 3.11 or later.
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/run_analysis.py --data data/demo_airline_reviews.csv --data-label synthetic_demo
+python -m pytest -q
+```
+
+The command runs only the included synthetic data. Reproducing the historical academic analysis requires an authorised copy of the original source workbook.
+
 ## Limitations
 
 - Recommendation is observed after the experience; this is diagnosis, not a pre-flight causal prediction.
